@@ -1,0 +1,37 @@
+{
+  "name": "auth-base-repo",
+  "version": "1.0.0",
+  "description": "A base repo in nodejs for auth purposes",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AssaultKoder95/auth-base-repo.git"
+  },
+  "keywords": [
+    "auth",
+    "jwt",
+    "nodejs"
+  ],
+  "author": "Pavan Gandhi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AssaultKoder95/auth-base-repo/issues"
+  },
+  "homepage": "https://github.com/AssaultKoder95/auth-base-repo#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

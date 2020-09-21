@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth-base-repo</title>
+    <style>
+      .form {
+        width: 300px;
+        background-color: #eee;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .form > form {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .form > form > input,
+      button {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Auth Base Repo</h1>
+    <div id="login-form" class="form">
+      <h3>Login Form</h3>
+      <form method="POST" action="/signin">
+        <input type="email" name="email" placeholder="Email" />
+        <input type="password" name="password" placeholder="Password" />
+        <button>Submit</button>
+      </form>
+      <div style="width: 100%; display: flex; justify-content: space-evenly">
+        <a href="#" onclick="signupFunc()"><h4>SignUp</h4></a>
+        <a href="#" onclick="resetFunc()"><h4>Forget Password</h4></a>
+      </div>
+    </div>
+
+    <div id="signup-form" class="form" style="display: none">
+      <h3>SignUp Form</h3>
+      <form method="POST" action="/signup">
+        <input type="text" name="name" placeholder="Name" />
+        <input type="email" name="email" placeholder="Email" />
+        <input type="password" name="password" placeholder="Password" />
+        <button>Submit</button>
+      </form>
+      <div style="width: 100%; display: flex; justify-content: space-evenly">
+        <a href="#" onclick="loginFunc()"><h4>Go to Login</h4></a>
+      </div>
+    </div>
+
+    <div id="reset-form" class="form" style="display: none">
+      <h3>Reset Form</h3>
+      <form method="POST" action="/reset">
+        <input hidden type="text" name="token" value="PREFILLED" />
+        <input
+          type="email"
+          name="email"
+          value="PRE@FILL.ED"
+          placeholder="Email"
+        />
+        <input type="password" name="password1" placeholder="New Password" />
+        <input
+          type="password"
+          name="password2"
+          placeholder="Confirm Password"
+        />
+        <button>Submit</button>
+      </form>
+      <div style="width: 100%; display: flex; justify-content: space-evenly">
+        <a href="#" onclick="loginFunc()"><h4>Go to Login</h4></a>
+      </div>
+    </div>
+
+    <script>
+      var loginForm = document.getElementById("login-form");
+      var signupForm = document.getElementById("signup-form");
+      var resetForm = document.getElementById("reset-form");
+
+      function loginFunc() {
+        loginForm.style.display = "flex";
+        signupForm.style.display = "none";
+        resetForm.style.display = "none";
+      }
+
+      function signupFunc() {
+        loginForm.style.display = "none";
+        signupForm.style.display = "flex";
+        resetForm.style.display = "none";
+      }
+
+      function resetFunc() {
+        loginForm.style.display = "none";
+        signupForm.style.display = "none";
+        resetForm.style.display = "flex";
+      }
+    </script>
+  </body>
+</html>
