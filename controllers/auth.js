@@ -6,11 +6,11 @@ const User = require("../models/User");
 
 //Signup
 exports.signup = (req, res) => {
-  const { name, email, password } = req.body;
+  const { email } = req.body;
 
-  User.findOne({ email: email }).then((user) => {
+  User.findOne({ email }).then((user) => {
     if (user) {
-      return res.status(400).json({ msg: "email already there" });
+      return res.status(400).json({ msg: "Email Already There" });
     } else {
       const newUser = new User(req.body);
 
@@ -20,14 +20,11 @@ exports.signup = (req, res) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
           newUser.password = hash;
-          newUser
-            .save()
-            .then((user) => res.json(user))
-            .catch((err) => console.log(err));
+          newUser.save().catch((err) => console.log(err));
+          res.clearCookie("token");
+          res.redirect("/");
         });
       });
-
-      // res.redirect("/");
     }
   });
 };
@@ -35,16 +32,47 @@ exports.signup = (req, res) => {
 //Signin
 exports.signin = (req, res) => {
   const { email, password } = req.body;
-  res.redirect("/dash");
-};
 
-//Reset
-exports.reset = (req, res) => {
-  const { token, email, password1, password2 } = req.body;
-  res.redirect("/");
+  User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({ msg: "User Not Found" });
+      } else {
+        res.clearCookie("token");
+        //Compare passwords using bcrypt
+        bcrypt
+          .compare(password, user.password)
+          .then((isSame) => {
+            if (isSame) {
+              //Use payload and create token for user
+              const payload = {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+              };
+
+              jwt.sign(
+                payload,
+                process.env.SECRET,
+                { expiresIn: 3600 },
+                (err, token) => {
+                  if (err) throw err;
+                  res.cookie("token", "Bearer " + token);
+                  res.redirect("/dash");
+                }
+              );
+            } else {
+              return res.status(400).json({ msg: "Wrong Password" });
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    })
+    .catch((err) => console.log(err));
 };
 
 //Signout
 exports.signout = (req, res) => {
+  res.clearCookie("token");
   res.redirect("/");
 };

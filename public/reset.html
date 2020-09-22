@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth-base-repo</title>
+    <style>
+      .form {
+        width: 300px;
+        background-color: #eee;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .form > form {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .form > form > input,
+      button {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reset Form</h1>
+
+    <div id="reset-form" class="form">
+      <h3>Reset Form</h3>
+      <form method="POST" action="/reset">
+        <input type="hidden" name="_method" value="PUT" />
+        <input hidden id="token" type="text" name="token" value="" />
+        <input
+          id="recovery-email"
+          type="email"
+          name="email"
+          value=""
+          placeholder="Email"
+        />
+        <input type="password" name="password1" placeholder="New Password" />
+        <input
+          type="password"
+          name="password2"
+          placeholder="Confirm Password"
+        />
+        <button>Reset Password</button>
+      </form>
+      <a href="/dash"><h4>Go to Dash</h4></a>
+    </div>
+
+    <script>
+      function storeToken() {
+        var name = "token=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            document.getElementById("token").value = c.substring(
+              name.length,
+              c.length
+            );
+            document.getElementById(
+              "recovery-email"
+            ).value = localStorage.getItem("email");
+          }
+        }
+      }
+      storeToken();
+    </script>
+  </body>
+</html>
