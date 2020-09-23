@@ -18,23 +18,27 @@ exports.resetPass = async (req, res) => {
   if (password1 === password2 && token) {
     // Encrypt password using bcrypt
     bcrypt.genSalt(10, (err, salt) => {
-      if (!err) {
-        bcrypt.hash(password1, salt, async (err, hash) => {
-          if (!err) {
-            await User.findOneAndUpdate(
-              { email },
-              {
-                password: hash,
-              }
-            );
-            return res.redirect("/dash");
-          } else {
-            return res.status(500).json({ success: false, msg: err });
-          }
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          msg: `Internal Server Error: ${err}`,
         });
-      } else {
-        return res.status(500).json({ success: false, msg: err });
       }
+      bcrypt.hash(password1, salt, async (err, hash) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            msg: `Internal Server Error: ${err}`,
+          });
+        }
+        await User.findOneAndUpdate(
+          { email },
+          {
+            password: hash,
+          }
+        );
+        return res.redirect("/dash");
+      });
     });
   } else {
     res.status(400).json({ success: false, msg: "Entered Inputs are wrong" });

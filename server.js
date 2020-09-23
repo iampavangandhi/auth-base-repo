@@ -9,6 +9,12 @@ const methodOverride = require("method-override");
 
 const app = express();
 
+// Logging
+if (process.env.NODE_ENV === "development") {
+  const morgan = require("morgan");
+  app.use(morgan("dev"));
+}
+
 // Method override
 const methodOverrideFunc = (req) => {
   if (req.body && typeof req.body === "object" && "_method" in req.body) {
@@ -47,5 +53,5 @@ const port = process.env.PORT || 3000;
 
 // Starting a server
 app.listen(port, () => {
-  console.log(`Server is running at ${port}`);
+  console.log(`Server is running in ${process.env.NODE_ENV} at ${port}`);
 });
