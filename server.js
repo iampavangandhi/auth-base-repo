@@ -4,6 +4,7 @@ require("dotenv").config({ path: "./config/config.env" });
 // Includes
 const express = require("express");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
 
@@ -11,7 +12,6 @@ const app = express();
 
 // Logging
 if (process.env.NODE_ENV === "development") {
-  const morgan = require("morgan");
   app.use(morgan("dev"));
 }
 
@@ -39,7 +39,7 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => {
-    console.log("Database Connected Successfully");
+    console.info("Database Connected Successfully");
   });
 
 // Routes
@@ -53,5 +53,5 @@ const port = process.env.PORT || 3000;
 
 // Starting a server
 app.listen(port, () => {
-  console.log(`Server is running in ${process.env.NODE_ENV} at ${port}`);
+  console.info(`Server is running in ${process.env.NODE_ENV} at ${port}`);
 });

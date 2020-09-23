@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auth-base-repo</title>
     <style>
+      html {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
       .form {
         width: 300px;
+        padding: 25px;
         background-color: #eee;
         display: flex;
         align-items: center;
@@ -27,7 +35,7 @@
     <h1>Reset Form</h1>
 
     <div id="reset-form" class="form">
-      <h3>Reset Form</h3>
+      <h2>Reset Password</h2>
       <form method="POST" action="/reset">
         <input type="hidden" name="_method" value="PUT" />
         <input required hidden id="token" type="text" name="token" value="" />

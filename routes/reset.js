@@ -5,11 +5,11 @@ const router = express.Router();
 const { reset, resetPass } = require("../controllers/reset");
 const { checkAuth } = require("../middleware/auth");
 
-// @desc    Reset Password
+// @desc    Reset password
 // @route   POST /reset
 router.get("/reset", checkAuth, reset);
 
-// @desc    Reset Password
+// @desc    Reset password
 // @route   PUT /reset
 router.put("/reset", checkAuth, resetPass);
 

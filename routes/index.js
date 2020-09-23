@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { index } = require("../controllers/index");
 
-// @desc    Login/Landing page
+// @desc    Login page
 // @route   GET /
 router.get("/", index);
 

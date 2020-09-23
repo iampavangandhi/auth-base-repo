@@ -1,15 +1,15 @@
 const bcrypt = require("bcryptjs");
 const path = require("path");
 
-// Import Schema
+// Import schema
 const User = require("../models/User");
 
-// Reset
+// Reset page
 exports.reset = (req, res) => {
   res.sendFile(path.join(__dirname, "../public/reset.html"));
 };
 
-// Reset
+// Reset password
 exports.resetPass = async (req, res) => {
   const { email, password1, password2 } = req.body;
 

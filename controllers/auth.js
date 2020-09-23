@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { isEmail, isAlpha } = require("validator");
 
-// Import Schema
+// Import schema
 const User = require("../models/User");
 
 // Signup
@@ -67,6 +67,7 @@ exports.signin = (req, res) => {
             .json({ success: false, msg: "User Not Found" });
         }
         res.clearCookie("token");
+
         // Compare passwords using bcrypt
         bcrypt
           .compare(password, user.password)
@@ -85,9 +86,9 @@ exports.signin = (req, res) => {
                 { expiresIn: 3600 },
                 (err, token) => {
                   if (err) throw err;
-                  res.cookie("token", `Bearer ${token}`);
                   // Disabling the httpOnly flag to test in localhost
                   // res.cookie("token", `Bearer ${token}`, { httpOnly: true });
+                  res.cookie("token", `Bearer ${token}`);
                   res.redirect("/dash");
                 }
               );

@@ -6,11 +6,11 @@
   "scripts": {
     "start": "NODE_ENV=production node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
-    "lint": "eslint  ./controllers/. ./middleware/. ./models/. ./routes/. server.js"
+    "linter": "eslint  ./controllers/. ./middleware/. ./models/. ./routes/. server.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run linter"
     }
   },
   "repository": {
@@ -45,15 +45,14 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.6",
+    "morgan": "^1.10.0",
     "validator": "^13.1.17"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "husky": "^4.3.0",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
   }
 }

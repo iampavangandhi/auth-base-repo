@@ -3,10 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Auth-base-repo</title>
+    <title>JWT Auth Repo</title>
     <style>
+      html {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
       .form {
         width: 300px;
+        padding: 25px;
         background-color: #eee;
         display: flex;
         align-items: center;
@@ -24,9 +32,9 @@
     </style>
   </head>
   <body>
-    <h1>Auth Base Repo</h1>
+    <h1>JWT Auth Repo</h1>
     <div id="login-form" class="form">
-      <h3>Login Form</h3>
+      <h2>Login Form</h2>
       <form method="POST" action="/signin" onsubmit="storeEmail()">
         <input
           required
@@ -48,7 +56,7 @@
     </div>
 
     <div id="signup-form" class="form" style="display: none">
-      <h3>SignUp Form</h3>
+      <h2>SignUp Form</h2>
       <form method="POST" action="/signup" onsubmit="storeEmail()">
         <input required type="text" name="name" placeholder="Name" />
         <input required type="email" name="email" placeholder="Email" />
