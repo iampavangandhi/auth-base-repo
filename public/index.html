@@ -28,8 +28,19 @@
     <div id="login-form" class="form">
       <h3>Login Form</h3>
       <form method="POST" action="/signin" onsubmit="storeEmail()">
-        <input id="email" type="email" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
+        <input
+          required
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Email"
+        />
+        <input
+          required
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
         <button>Submit</button>
       </form>
       <a href="#" onclick="signupFunc()"><h4>SignUp</h4></a>
@@ -38,9 +49,14 @@
     <div id="signup-form" class="form" style="display: none">
       <h3>SignUp Form</h3>
       <form method="POST" action="/signup" onsubmit="storeEmail()">
-        <input type="text" name="name" placeholder="Name" />
-        <input type="email" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
+        <input required type="text" name="name" placeholder="Name" />
+        <input required type="email" name="email" placeholder="Email" />
+        <input
+          required
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
         <button>Submit</button>
       </form>
       <a href="#" onclick="loginFunc()"><h4>Go to Login</h4></a>

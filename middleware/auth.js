@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 exports.checkAuth = (req, res, next) => {
-  let token = req.cookies.token;
+  const { token } = req.cookies;
 
   if (token) {
-    token = token.split(" ")[1];
-    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    const extractedToken = token.split(" ")[1];
+    jwt.verify(extractedToken, process.env.SECRET, (err, decoded) => {
       if (err) {
         res.status(403).send({
           success: false,

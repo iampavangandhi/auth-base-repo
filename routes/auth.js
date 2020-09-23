@@ -1,10 +1,8 @@
 const express = require("express");
+
 const router = express.Router();
 
 const { signup, signin, signout } = require("../controllers/auth");
-
-//Import Schema
-const User = require("../models/User");
 
 // @desc    Signup
 // @route   POST /signup

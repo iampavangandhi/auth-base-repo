@@ -30,16 +30,23 @@
       <h3>Reset Form</h3>
       <form method="POST" action="/reset">
         <input type="hidden" name="_method" value="PUT" />
-        <input hidden id="token" type="text" name="token" value="" />
+        <input required hidden id="token" type="text" name="token" value="" />
         <input
+          required
           id="recovery-email"
           type="email"
           name="email"
           value=""
           placeholder="Email"
         />
-        <input type="password" name="password1" placeholder="New Password" />
         <input
+          required
+          type="password"
+          name="password1"
+          placeholder="New Password"
+        />
+        <input
+          required
           type="password"
           name="password2"
           placeholder="Confirm Password"
