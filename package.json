@@ -6,11 +6,13 @@
   "scripts": {
     "start": "NODE_ENV=production node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
+    "doc": "jsdoc -c ./config/jsdoc.json",
     "linter": "eslint  ./controllers/. ./middleware/. ./models/. ./routes/. server.js"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run linter"
+      "pre-commit": "npm run linter",
+      "pre-push": "npm run doc"
     }
   },
   "repository": {
@@ -53,6 +55,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "husky": "^4.3.0",
+    "jsdoc": "^3.6.6",
     "nodemon": "^2.0.4"
   }
 }
