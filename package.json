@@ -7,11 +7,12 @@
     "start": "NODE_ENV=production node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
     "doc": "jsdoc -c ./config/jsdoc.json",
-    "linter": "eslint  ./controllers/. ./middleware/. ./models/. ./routes/. server.js"
+    "linter": "eslint  ./controllers/. ./middleware/. ./models/. ./routes/. server.js",
+    "add-all": "git add ."
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run doc && git add .",
+      "pre-commit": "npm run doc && npm run add-all",
       "pre-push": "npm run linter"
     }
   },
