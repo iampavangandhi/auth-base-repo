@@ -4,8 +4,12 @@ const router = express.Router();
 
 const { index } = require("../controllers/index");
 
-// @desc    Login page
-// @route   GET /
+/**
+ * Route for Login Landing Page
+ *
+ * @name Route - index route
+ * @path {GET} /
+ */
 router.get("/", index);
 
 module.exports = router;

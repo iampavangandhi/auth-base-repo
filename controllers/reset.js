@@ -4,12 +4,25 @@ const path = require("path");
 // Import schema
 const User = require("../models/User");
 
-// Reset page
+/**
+ * controller for reset route
+ *
+ * @name Controller -  reset route controller
+ * @param {object} req - the request
+ * @param {object} res - the response
+ */
 exports.reset = (req, res) => {
   res.sendFile(path.join(__dirname, "../public/reset.html"));
 };
 
-// Reset password
+/**
+ * controller for resetPass route
+ *
+ * @name Controller -  resetPass route controller
+ * @param {object} req - the request
+ * @param {object} res - the response
+ * @body {object} req.body token, name, password1, password2
+ */
 exports.resetPass = async (req, res) => {
   const { email, password1, password2 } = req.body;
 

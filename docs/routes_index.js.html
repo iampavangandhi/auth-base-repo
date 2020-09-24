@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: routes/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,33 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: routes/index.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const express = require("express");
 
+const router = express.Router();
 
-    <h3> </h3>
+const { index } = require("../controllers/index");
 
+/**
+ * Route for Login Landing Page
+ *
+ * @name Route - index route
+ * @path {GET} /
+ */
+router.get("/", index);
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
 
 
 

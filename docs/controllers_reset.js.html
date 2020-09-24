@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: controllers/reset.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,76 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: controllers/reset.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const bcrypt = require("bcryptjs");
+const path = require("path");
 
+// Import schema
+const User = require("../models/User");
 
-    <h3> </h3>
+/**
+ * controller for reset route
+ *
+ * @name Controller -  reset route controller
+ * @param {object} req - the request
+ * @param {object} res - the response
+ */
+exports.reset = (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/reset.html"));
+};
 
+/**
+ * controller for resetPass route
+ *
+ * @name Controller -  resetPass route controller
+ * @param {object} req - the request
+ * @param {object} res - the response
+ */
+exports.resetPass = async (req, res) => {
+  const { email, password1, password2 } = req.body;
 
+  const token = req.body.token.split("%20")[1];
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+  if (password1 === password2 &amp;&amp; token) {
+    // Encrypt password using bcrypt
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          msg: `Internal Server Error: ${err}`,
+        });
+      }
+      bcrypt.hash(password1, salt, async (err, hash) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            msg: `Internal Server Error: ${err}`,
+          });
+        }
+        await User.findOneAndUpdate(
+          { email },
+          {
+            password: hash,
+          }
+        );
+        return res.redirect("/dash");
+      });
+    });
+  } else {
+    res.status(400).json({ success: false, msg: "Entered Inputs are wrong" });
+  }
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

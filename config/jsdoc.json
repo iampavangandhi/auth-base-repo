@@ -1,10 +1,15 @@
 {
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
   "source": {
-    "include": ["controllers", "middleware", "models", "routes", ""],
+    "include": ["."],
+    "exclude": ["node_modules"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
-  "plugins": ["plugins/markdown"],
+  "plugins": ["plugins/markdown", "jsdoc-http-plugin"],
   "templates": {
     "cleverLinks": true,
     "monospaceLinks": true

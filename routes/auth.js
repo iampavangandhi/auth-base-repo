@@ -4,16 +4,28 @@ const router = express.Router();
 
 const { signup, signin, signout } = require("../controllers/auth");
 
-// @desc    Signup
-// @route   POST /signup
+/**
+ * Route for user signup
+ *
+ * @name Route - signup route
+ * @path {POST} /signup
+ */
 router.post("/signup", signup);
 
-// @desc    Signin
-// @route   POST /signin
+/**
+ * Route for user signin
+ *
+ * @name Route - signin route
+ * @path {POST} /signin
+ */
 router.post("/signin", signin);
 
-// @desc    Signout
-// @route   GET /signout
+/**
+ * Route for signout
+ *
+ * @name Route - signout route
+ * @path {GET} /signout
+ */
 router.get("/signout", signout);
 
 module.exports = router;

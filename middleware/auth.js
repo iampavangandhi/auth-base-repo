@@ -1,7 +1,12 @@
 const jwt = require("jsonwebtoken");
 
 /**
- * checkAuth Middleware
+ * Middleware to check if a user is signed-in or not
+ *
+ * @name Middleware - checkAuth middleware
+ * @param {object} req - the request
+ * @param {object} res - the response
+ * @param {Function} next - next function
  */
 exports.checkAuth = (req, res, next) => {
   const { token } = req.cookies;

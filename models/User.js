@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 /**
- * User Model
+ * User model to store the data in the database
+ *
+ * @name Model - user schema
+ * @type {object}
  */
 const userSchema = new mongoose.Schema(
   {

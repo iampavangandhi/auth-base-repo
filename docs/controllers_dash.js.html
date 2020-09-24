@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: controllers/dash.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,31 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: controllers/dash.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const path = require("path");
 
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ * controller for dashboard route
+ *
+ * @name Controller -  dashboard route controller
+ * @param {object} req - the request
+ * @param {object} res - the response
+ * @header {String} token JWT token
+ */
+exports.dash = (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, "../public/dash.html"));
+};
+</code></pre>
+        </article>
+    </section>
 
 
 
