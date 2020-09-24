@@ -7,9 +7,10 @@ const User = require("../models/User");
 /**
  * Controller for reset route
  *
+ * @module
  * @name Controller -  reset route controller
- * @param {object} req - the request
- * @param {object} res - the response
+ * @param {object} req request
+ * @param {object} res response
  */
 exports.reset = (req, res) => {
   res.sendFile(path.join(__dirname, "../public/reset.html"));
@@ -18,9 +19,10 @@ exports.reset = (req, res) => {
 /**
  * Controller for resetPass route
  *
+ * @module
  * @name Controller -  resetPass route controller
- * @param {object} req - the request
- * @param {object} res - the response
+ * @param {object} req request
+ * @param {object} res response
  * @body {object} req.body token, name, password1, password2
  */
 exports.resetPass = async (req, res) => {

@@ -12,6 +12,7 @@ const { checkAuth } = require("../middleware/auth");
  * @path {GET} /dash
  * @auth Authentication is required
  */
+
 router.get("/dash", checkAuth, dash);
 
 module.exports = router;

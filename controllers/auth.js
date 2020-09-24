@@ -8,9 +8,10 @@ const User = require("../models/User");
 /**
  * Controller for signup route
  *
+ * @module
  * @name Controller - signup route controller
- * @param {object} req - the request
- * @param {object} res - the response
+ * @param {object} req request
+ * @param {object} res response
  * @body {object} req.body name, email, password
  */
 exports.signup = (req, res) => {
@@ -64,9 +65,10 @@ exports.signup = (req, res) => {
 /**
  * Controller for signin route
  *
+ * @module
  * @name Controller -  signin route controller
- * @param {object} req - the request
- * @param {object} res - the response
+ * @param {object} req request
+ * @param {object} res response
  * @body {object} req.body email, password
  */
 exports.signin = (req, res) => {
@@ -136,9 +138,10 @@ exports.signin = (req, res) => {
 /**
  * Controller for signout route
  *
- * @name Controller -  signout route controller
- * @param {object} req - the request
- * @param {object} res - the response
+ * @module
+ * @name Controller - signout route controller
+ * @param {object} req request
+ * @param {object} res response
  */
 exports.signout = (req, res) => {
   res.clearCookie("token");
