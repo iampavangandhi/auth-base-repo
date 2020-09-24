@@ -5,7 +5,7 @@ const path = require("path");
 const User = require("../models/User");
 
 /**
- * controller for reset route
+ * Controller for reset route
  *
  * @name Controller -  reset route controller
  * @param {object} req - the request
@@ -16,7 +16,7 @@ exports.reset = (req, res) => {
 };
 
 /**
- * controller for resetPass route
+ * Controller for resetPass route
  *
  * @name Controller -  resetPass route controller
  * @param {object} req - the request

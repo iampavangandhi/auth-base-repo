@@ -1,7 +1,7 @@
 const path = require("path");
 
 /**
- * controller for dashboard route
+ * Controller for dashboard route
  *
  * @name Controller -  dashboard route controller
  * @param {object} req - the request

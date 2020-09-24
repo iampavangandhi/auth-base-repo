@@ -1,7 +1,7 @@
 const path = require("path");
 
 /**
- * controller for index route
+ * Controller for index route
  *
  * @name Controller - index route controller
  * @param {object} req - the request

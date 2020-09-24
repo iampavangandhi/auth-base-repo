@@ -6,7 +6,7 @@ const { isEmail, isAlpha } = require("validator");
 const User = require("../models/User");
 
 /**
- * controller for signup route
+ * Controller for signup route
  *
  * @name Controller - signup route controller
  * @param {object} req - the request
@@ -62,7 +62,7 @@ exports.signup = (req, res) => {
 };
 
 /**
- * controller for signin route
+ * Controller for signin route
  *
  * @name Controller -  signin route controller
  * @param {object} req - the request
@@ -134,7 +134,7 @@ exports.signin = (req, res) => {
 };
 
 /**
- * controller for signout route
+ * Controller for signout route
  *
  * @name Controller -  signout route controller
  * @param {object} req - the request
