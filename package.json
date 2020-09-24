@@ -11,8 +11,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run linter",
-      "pre-push": "npm run doc"
+      "pre-commit": "npm run doc && git add .",
+      "pre-push": "npm run linter"
     }
   },
   "repository": {
