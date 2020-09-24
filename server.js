@@ -1,3 +1,8 @@
+/**
+ * @file server.js is the root file for this app
+ * @see {@link https://github.com/iampavangandhi/auth-base-repo/tree/auth-setup}
+ */
+
 // Config
 require("dotenv").config({ path: "./config/config.env" });
 
