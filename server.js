@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(methodOverride(methodOverrideFunc));
 
 // DB Connection
-if (process.env.NODE_ENV == "test") {
+if (process.env.NODE_ENV === "test") {
   mongoose
     .connect(process.env.DATABASETEST, {
       useNewUrlParser: true,
