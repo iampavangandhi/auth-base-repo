@@ -34,16 +34,29 @@ app.use(cookieParser());
 app.use(methodOverride(methodOverrideFunc));
 
 // DB Connection
-mongoose
-  .connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then(() => {
-    console.info("Database Connected Successfully");
-  });
+if (process.env.NODE_ENV == "test") {
+  mongoose
+    .connect(process.env.DATABASETEST, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    })
+    .then(() => {
+      console.info("Database Connected Successfully");
+    });
+} else {
+  mongoose
+    .connect(process.env.DATABASE, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    })
+    .then(() => {
+      console.info("Database Connected Successfully");
+    });
+}
 
 // error handler middleware
 app.use((err, req, res, next) => {
