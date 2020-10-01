@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const { dash } = require("../controllers/dash");
+const { dashboard } = require("../controllers/dashboard");
 const { checkAuth } = require("../middleware/auth");
 
 /**
@@ -13,6 +13,6 @@ const { checkAuth } = require("../middleware/auth");
  * @auth Authentication is required
  */
 
-router.get("/dash", checkAuth, dash);
+router.get("/dashboard", checkAuth, dashboard);
 
 module.exports = router;

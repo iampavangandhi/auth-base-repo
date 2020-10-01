@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/index.js</title>
+    <title>JSDoc: Source: routes/dashboard.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/index.js</h1>
+    <h1 class="page-title">Source: routes/dashboard.js</h1>
 
     
 
@@ -30,15 +30,18 @@
 
 const router = express.Router();
 
-const { index } = require("../controllers/index");
+const { dashboard } = require("../controllers/dashboard");
+const { checkAuth } = require("../middleware/auth");
 
 /**
- * Route for Login Landing Page
+ * Route for the dashboard
  *
- * @name Route - index route
- * @path {GET} /
+ * @name Route - dashboard route
+ * @path {GET} /dash
+ * @auth Authentication is required
  */
-router.get("/", index);
+
+router.get("/dashboard", checkAuth, dashboard);
 
 module.exports = router;
 </code></pre>

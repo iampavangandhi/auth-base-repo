@@ -42,10 +42,10 @@ const User = require("../models/User");
  * @param {object} res response
  * @body {object} req.body name, email, password
  */
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
   const { name, email, password } = req.body;
 
-  if (isAlpha(name) &amp;&amp; isEmail(email)) {
+  if (isAlpha(name) &amp;&amp; isEmail(email) &amp;&amp; password.length >= 6) {
     User.findOne({ email }).then((user) => {
       if (user) {
         return res
@@ -53,30 +53,14 @@ exports.signup = (req, res) => {
           .json({ success: false, msg: "Email Already There" });
       }
       const newUser = new User(req.body);
-
       // Encrypt password using bcrypt
       bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            msg: `Internal Server Error: ${err}`,
-          });
-        }
+        if (err) next(err);
         bcrypt.hash(password, salt, (err, hash) => {
-          if (err) {
-            return res.status(500).json({
-              success: false,
-              msg: `Internal Server Error: ${err}`,
-            });
-          }
+          if (err) next(err);
           newUser.password = hash;
           newUser.save().catch((err) => {
-            if (err) {
-              return res.status(500).json({
-                success: false,
-                msg: `Internal Server Error: ${err}`,
-              });
-            }
+            if (err) next(err);
           });
           res.clearCookie("token");
           res.redirect("/");
@@ -99,7 +83,7 @@ exports.signup = (req, res) => {
  * @param {object} res response
  * @body {object} req.body email, password
  */
-exports.signin = (req, res) => {
+exports.signin = (req, res, next) => {
   const { email, password } = req.body;
 
   if (isEmail(email)) {
@@ -129,11 +113,11 @@ exports.signin = (req, res) => {
                 process.env.SECRET,
                 { expiresIn: 3600 },
                 (err, token) => {
-                  if (err) throw err;
+                  if (err) next(err);
                   // Disabling the httpOnly flag to test in localhost
                   // res.cookie("token", `Bearer ${token}`, { httpOnly: true });
                   res.cookie("token", `Bearer ${token}`);
-                  res.redirect("/dash");
+                  res.status(304).redirect("/dashboard");
                 }
               );
             } else {
@@ -143,20 +127,11 @@ exports.signin = (req, res) => {
             }
           })
           .catch((err) => {
-            if (err) {
-              return res.status(500).json({
-                success: false,
-                msg: `Internal Server Error: ${err}`,
-              });
-            }
+            if (err) next(err);
           });
       })
       .catch((err) => {
-        if (err) {
-          return res
-            .status(500)
-            .json({ success: false, msg: `Internal Server Error: ${err}` });
-        }
+        if (err) next(err);
       });
   } else {
     res.status(400).json({ success: false, msg: "Required Fields Missing" });
@@ -185,13 +160,13 @@ exports.signout = (req, res) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controller%2520-%2520%2520dashboard%2520route%2520controller.html">Controller -  dashboard route controller</a></li><li><a href="module-Controller%2520-%2520%2520reset%2520route%2520controller.html">Controller -  reset route controller</a></li><li><a href="module-Controller%2520-%2520%2520resetPass%2520route%2520controller.html">Controller -  resetPass route controller</a></li><li><a href="module-Controller%2520-%2520%2520signin%2520route%2520controller.html">Controller -  signin route controller</a></li><li><a href="module-Controller%2520-%2520index%2520route%2520controller.html">Controller - index route controller</a></li><li><a href="module-Controller%2520-%2520signout%2520route%2520controller.html">Controller - signout route controller</a></li><li><a href="module-Controller%2520-%2520signup%2520route%2520controller.html">Controller - signup route controller</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Middleware-checkAuthmiddleware">Middleware - checkAuth middleware</a></li><li><a href="global.html#Model-userschema">Model - user schema</a></li><li><a href="global.html">Route - dashboard route</a></li><li><a href="global.html">Route - index route</a></li><li><a href="global.html">Route - reset route</a></li><li><a href="global.html">Route - resetPass route</a></li><li><a href="global.html">Route - signin route</a></li><li><a href="global.html">Route - signout route</a></li><li><a href="global.html">Route - signup route</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controller%2520-%2520%2520reset%2520route%2520controller.html">Controller -  reset route controller</a></li><li><a href="module-Controller%2520-%2520%2520resetPassword%2520route%2520controller.html">Controller -  resetPassword route controller</a></li><li><a href="module-Controller%2520-%2520%2520signin%2520route%2520controller.html">Controller -  signin route controller</a></li><li><a href="module-Controller%2520-%2520dashboard%2520route%2520controller.html">Controller - dashboard route controller</a></li><li><a href="module-Controller%2520-%2520index%2520route%2520controller.html">Controller - index route controller</a></li><li><a href="module-Controller%2520-%2520signout%2520route%2520controller.html">Controller - signout route controller</a></li><li><a href="module-Controller%2520-%2520signup%2520route%2520controller.html">Controller - signup route controller</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Middleware-checkAuthmiddleware">Middleware - checkAuth middleware</a></li><li><a href="global.html#Model-userschema">Model - user schema</a></li><li><a href="global.html">Route - dashboard route</a></li><li><a href="global.html">Route - index route</a></li><li><a href="global.html">Route - reset route</a></li><li><a href="global.html">Route - resetPassword route</a></li><li><a href="global.html">Route - signin route</a></li><li><a href="global.html">Route - signout route</a></li><li><a href="global.html">Route - signup route</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Sep 24 2020 21:45:16 GMT+0530 (India Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Oct 01 2020 21:23:27 GMT+0530 (India Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

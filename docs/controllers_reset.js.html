@@ -41,46 +41,41 @@ const User = require("../models/User");
  * @param {object} res response
  */
 exports.reset = (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/reset.html"));
+  const { token } = req.cookies;
+
+  res
+    .status(200)
+    .set("token", token)
+    .sendFile(path.join(__dirname, "../public/reset.html"));
 };
 
 /**
  * Controller for resetPass route
  *
  * @module
- * @name Controller -  resetPass route controller
+ * @name Controller -  resetPassword route controller
  * @param {object} req request
  * @param {object} res response
  * @body {object} req.body token, name, password1, password2
  */
-exports.resetPass = async (req, res) => {
+exports.resetPassword = async (req, res, next) => {
   const { email, password1, password2 } = req.body;
 
   const token = req.body.token.split("%20")[1];
 
-  if (password1 === password2 &amp;&amp; token) {
+  if (password1 === password2 &amp;&amp; password1.length >= 6 &amp;&amp; token) {
     // Encrypt password using bcrypt
     bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          msg: `Internal Server Error: ${err}`,
-        });
-      }
+      if (err) next(err);
       bcrypt.hash(password1, salt, async (err, hash) => {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            msg: `Internal Server Error: ${err}`,
-          });
-        }
+        if (err) next(err);
         await User.findOneAndUpdate(
           { email },
           {
             password: hash,
           }
         );
-        return res.redirect("/dash");
+        return res.redirect("/dashboard");
       });
     });
   } else {
@@ -97,13 +92,13 @@ exports.resetPass = async (req, res) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controller%2520-%2520%2520dashboard%2520route%2520controller.html">Controller -  dashboard route controller</a></li><li><a href="module-Controller%2520-%2520%2520reset%2520route%2520controller.html">Controller -  reset route controller</a></li><li><a href="module-Controller%2520-%2520%2520resetPass%2520route%2520controller.html">Controller -  resetPass route controller</a></li><li><a href="module-Controller%2520-%2520%2520signin%2520route%2520controller.html">Controller -  signin route controller</a></li><li><a href="module-Controller%2520-%2520index%2520route%2520controller.html">Controller - index route controller</a></li><li><a href="module-Controller%2520-%2520signout%2520route%2520controller.html">Controller - signout route controller</a></li><li><a href="module-Controller%2520-%2520signup%2520route%2520controller.html">Controller - signup route controller</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Middleware-checkAuthmiddleware">Middleware - checkAuth middleware</a></li><li><a href="global.html#Model-userschema">Model - user schema</a></li><li><a href="global.html">Route - dashboard route</a></li><li><a href="global.html">Route - index route</a></li><li><a href="global.html">Route - reset route</a></li><li><a href="global.html">Route - resetPass route</a></li><li><a href="global.html">Route - signin route</a></li><li><a href="global.html">Route - signout route</a></li><li><a href="global.html">Route - signup route</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controller%2520-%2520%2520reset%2520route%2520controller.html">Controller -  reset route controller</a></li><li><a href="module-Controller%2520-%2520%2520resetPassword%2520route%2520controller.html">Controller -  resetPassword route controller</a></li><li><a href="module-Controller%2520-%2520%2520signin%2520route%2520controller.html">Controller -  signin route controller</a></li><li><a href="module-Controller%2520-%2520dashboard%2520route%2520controller.html">Controller - dashboard route controller</a></li><li><a href="module-Controller%2520-%2520index%2520route%2520controller.html">Controller - index route controller</a></li><li><a href="module-Controller%2520-%2520signout%2520route%2520controller.html">Controller - signout route controller</a></li><li><a href="module-Controller%2520-%2520signup%2520route%2520controller.html">Controller - signup route controller</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Middleware-checkAuthmiddleware">Middleware - checkAuth middleware</a></li><li><a href="global.html#Model-userschema">Model - user schema</a></li><li><a href="global.html">Route - dashboard route</a></li><li><a href="global.html">Route - index route</a></li><li><a href="global.html">Route - reset route</a></li><li><a href="global.html">Route - resetPassword route</a></li><li><a href="global.html">Route - signin route</a></li><li><a href="global.html">Route - signout route</a></li><li><a href="global.html">Route - signup route</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Sep 24 2020 21:45:16 GMT+0530 (India Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Thu Oct 01 2020 21:23:27 GMT+0530 (India Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

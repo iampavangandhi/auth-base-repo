@@ -15,16 +15,13 @@ exports.checkAuth = (req, res, next) => {
     const extractedToken = token.split(" ")[1];
     jwt.verify(extractedToken, process.env.SECRET, (err, decoded) => {
       if (err) {
-        res.status(403).send({
-          success: false,
-          message: "Failed to authenticate user.",
-        });
+        next(err);
       } else {
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    res.status(403).send({ success: false, message: "No Token Provided." });
+    res.status(403).send({ success: false, message: "No Token Provided" });
   }
 };

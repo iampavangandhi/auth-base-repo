@@ -14,10 +14,10 @@ const User = require("../models/User");
  * @param {object} res response
  * @body {object} req.body name, email, password
  */
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
   const { name, email, password } = req.body;
 
-  if (isAlpha(name) && isEmail(email)) {
+  if (isAlpha(name) && isEmail(email) && password.length >= 6) {
     User.findOne({ email }).then((user) => {
       if (user) {
         return res
@@ -25,30 +25,14 @@ exports.signup = (req, res) => {
           .json({ success: false, msg: "Email Already There" });
       }
       const newUser = new User(req.body);
-
       // Encrypt password using bcrypt
       bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            msg: `Internal Server Error: ${err}`,
-          });
-        }
+        if (err) next(err);
         bcrypt.hash(password, salt, (err, hash) => {
-          if (err) {
-            return res.status(500).json({
-              success: false,
-              msg: `Internal Server Error: ${err}`,
-            });
-          }
+          if (err) next(err);
           newUser.password = hash;
           newUser.save().catch((err) => {
-            if (err) {
-              return res.status(500).json({
-                success: false,
-                msg: `Internal Server Error: ${err}`,
-              });
-            }
+            if (err) next(err);
           });
           res.clearCookie("token");
           res.redirect("/");
@@ -71,7 +55,7 @@ exports.signup = (req, res) => {
  * @param {object} res response
  * @body {object} req.body email, password
  */
-exports.signin = (req, res) => {
+exports.signin = (req, res, next) => {
   const { email, password } = req.body;
 
   if (isEmail(email)) {
@@ -101,11 +85,11 @@ exports.signin = (req, res) => {
                 process.env.SECRET,
                 { expiresIn: 3600 },
                 (err, token) => {
-                  if (err) throw err;
+                  if (err) next(err);
                   // Disabling the httpOnly flag to test in localhost
                   // res.cookie("token", `Bearer ${token}`, { httpOnly: true });
                   res.cookie("token", `Bearer ${token}`);
-                  res.redirect("/dash");
+                  res.status(304).redirect("/dashboard");
                 }
               );
             } else {
@@ -115,20 +99,11 @@ exports.signin = (req, res) => {
             }
           })
           .catch((err) => {
-            if (err) {
-              return res.status(500).json({
-                success: false,
-                msg: `Internal Server Error: ${err}`,
-              });
-            }
+            if (err) next(err);
           });
       })
       .catch((err) => {
-        if (err) {
-          return res
-            .status(500)
-            .json({ success: false, msg: `Internal Server Error: ${err}` });
-        }
+        if (err) next(err);
       });
   } else {
     res.status(400).json({ success: false, msg: "Required Fields Missing" });

@@ -13,46 +13,41 @@ const User = require("../models/User");
  * @param {object} res response
  */
 exports.reset = (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/reset.html"));
+  const { token } = req.cookies;
+
+  res
+    .status(200)
+    .set("token", token)
+    .sendFile(path.join(__dirname, "../public/reset.html"));
 };
 
 /**
  * Controller for resetPass route
  *
  * @module
- * @name Controller -  resetPass route controller
+ * @name Controller -  resetPassword route controller
  * @param {object} req request
  * @param {object} res response
  * @body {object} req.body token, name, password1, password2
  */
-exports.resetPass = async (req, res) => {
+exports.resetPassword = async (req, res, next) => {
   const { email, password1, password2 } = req.body;
 
   const token = req.body.token.split("%20")[1];
 
-  if (password1 === password2 && token) {
+  if (password1 === password2 && password1.length >= 6 && token) {
     // Encrypt password using bcrypt
     bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          msg: `Internal Server Error: ${err}`,
-        });
-      }
+      if (err) next(err);
       bcrypt.hash(password1, salt, async (err, hash) => {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            msg: `Internal Server Error: ${err}`,
-          });
-        }
+        if (err) next(err);
         await User.findOneAndUpdate(
           { email },
           {
             password: hash,
           }
         );
-        return res.redirect("/dash");
+        return res.redirect("/dashboard");
       });
     });
   } else {

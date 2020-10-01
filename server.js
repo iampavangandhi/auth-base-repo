@@ -16,9 +16,7 @@ const methodOverride = require("method-override");
 const app = express();
 
 // Logging
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+app.use(morgan("dev"));
 
 // Method override
 const methodOverrideFunc = (req) => {
@@ -47,16 +45,25 @@ mongoose
     console.info("Database Connected Successfully");
   });
 
+// error handler middleware
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    status: err.status || 500,
+    message: err.message || "Internal Server Error",
+  });
+});
+
 // Routes
 app.use("/", require("./routes/index"));
 app.use("/", require("./routes/auth"));
-app.use("/", require("./routes/dash"));
+app.use("/", require("./routes/dashboard"));
 app.use("/", require("./routes/reset"));
 
 // PORT
 const port = process.env.PORT || 3000;
 
 // Starting a server
-app.listen(port, () => {
+module.exports = app.listen(port, () => {
   console.info(`Server is running in ${process.env.NODE_ENV} at ${port}`);
 });

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/index.js</title>
+    <title>JSDoc: Source: controllers/dashboard.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/index.js</h1>
+    <h1 class="page-title">Source: controllers/dashboard.js</h1>
 
     
 
@@ -26,21 +26,24 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const express = require("express");
-
-const router = express.Router();
-
-const { index } = require("../controllers/index");
+            <pre class="prettyprint source linenums"><code>const path = require("path");
 
 /**
- * Route for Login Landing Page
+ * Controller for dashboard route
  *
- * @name Route - index route
- * @path {GET} /
+ * @module
+ * @name Controller - dashboard route controller
+ * @param {object} req request
+ * @param {object} res response
  */
-router.get("/", index);
+exports.dashboard = (req, res) => {
+  const { token } = req.cookies;
 
-module.exports = router;
+  res
+    .status(200)
+    .set("token", token)
+    .sendFile(path.join(__dirname, "../public/dashboard.html"));
+};
 </code></pre>
         </article>
     </section>
