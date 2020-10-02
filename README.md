@@ -58,7 +58,7 @@ npm start
 npm run dev
 
 # run test cases
-npm run test
+npm test
 
 # run jsdoc
 npm run doc
