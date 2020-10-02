@@ -59,12 +59,11 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // error handler middleware
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json({
-    status: err.status || 500,
-    message: err.message || "Internal Server Error",
-  });
+app.use((req, res, next) => {
+  res.errHandler = (statusCode, success, message) => {
+    return res.status(statusCode).json({ success: success, message: message });
+  };
+  next();
 });
 
 // Routes

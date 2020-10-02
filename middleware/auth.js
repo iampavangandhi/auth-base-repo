@@ -8,20 +8,20 @@ const jwt = require("jsonwebtoken");
  * @param {object} res - the response
  * @param {Function} next - next function
  */
-exports.checkAuth = (req, res, next) => {
+exports.checkAuth = async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token) {
     const extractedToken = token.split(" ")[1];
-    jwt.verify(extractedToken, process.env.SECRET, (err, decoded) => {
+    await jwt.verify(extractedToken, process.env.SECRET, (err, decoded) => {
       if (err) {
-        next(err);
+        res.errHandler(500, false, "Internal Server Error");
       } else {
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    res.status(403).send({ success: false, message: "No Token Provided" });
+    res.errHandler(403, false, "No Token Provided");
   }
 };

@@ -9,10 +9,5 @@ const path = require("path");
  * @param {object} res response
  */
 exports.dashboard = (req, res) => {
-  const { token } = req.cookies;
-
-  res
-    .status(200)
-    .set("token", token)
-    .sendFile(path.join(__dirname, "../public/dashboard.html"));
+  res.status(200).sendFile(path.join(__dirname, "../public/dashboard.html"));
 };

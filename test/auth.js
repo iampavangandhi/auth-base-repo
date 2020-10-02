@@ -14,7 +14,7 @@ const demoUserData = {
 };
 
 const demoUser = {
-  email: "new@new.com",
+  email: "new@new1.com",
   password: "123456",
 };
 
@@ -48,7 +48,7 @@ describe("/POST signin", () => {
   it("it should login the user and redirect to /dashboard", (done) => {
     chai
       .request(server)
-      .post("/sign")
+      .post("/signin")
       .send(demoUser)
       .end((err, res) => {
         done();

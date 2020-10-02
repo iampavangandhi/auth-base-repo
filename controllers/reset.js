@@ -38,9 +38,9 @@ exports.resetPassword = async (req, res, next) => {
   if (password1 === password2 && password1.length >= 6 && token) {
     // Encrypt password using bcrypt
     bcrypt.genSalt(10, (err, salt) => {
-      if (err) next(err);
+      if (err) res.errHandler(500, false, "Internal Server Error");
       bcrypt.hash(password1, salt, async (err, hash) => {
-        if (err) next(err);
+        if (err) res.errHandler(500, false, "Internal Server Error");
         await User.findOneAndUpdate(
           { email },
           {
@@ -51,6 +51,6 @@ exports.resetPassword = async (req, res, next) => {
       });
     });
   } else {
-    res.status(400).json({ success: false, msg: "Entered Inputs are wrong" });
+    res.errHandler(400, false, "Entered Inputs are wrong");
   }
 };

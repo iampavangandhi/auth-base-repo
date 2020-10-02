@@ -21,7 +21,9 @@
     </form>
     <a href="/reset"><h4>Reset Password</h4></a>
     <script>
-      localStorage.removeItem("email");
+      function clearEmail() {
+        localStorage.removeItem("email");
+      }
     </script>
   </body>
 </html>
