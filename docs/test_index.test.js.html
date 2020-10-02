@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: controllers/reset.js</title>
+    <title>JSDoc: Source: test/index.test.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: controllers/reset.js</h1>
+    <h1 class="page-title">Source: test/index.test.js</h1>
 
     
 
@@ -26,62 +26,30 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const bcrypt = require("bcryptjs");
-const path = require("path");
+            <pre class="prettyprint source linenums"><code>let chai = require("chai");
+let chaiHttp = require("chai-http");
+let server = require("../server");
+let should = chai.should();
 
-// Import schema
-const User = require("../models/User");
-
-/**
- * Controller for reset route
- *
- * @module
- * @name Controller -  reset route controller
- * @param {object} req request
- * @param {object} res response
- */
-exports.reset = (req, res) => {
-  const { token } = req.cookies;
-
-  res
-    .status(200)
-    .set("token", token)
-    .sendFile(path.join(__dirname, "../public/reset.html"));
-};
+chai.use(chaiHttp);
 
 /**
- * Controller for resetPass route
+ * Test for index route
  *
- * @module
- * @name Controller -  resetPassword route controller
- * @param {object} req request
- * @param {object} res response
- * @body {object} req.body token, name, password1, password2
+ * @name Test - index test
  */
-exports.resetPassword = async (req, res, next) => {
-  const { token, email, password1, password2 } = req.body;
-
-  if (!token || !email || !password1 || !password2) {
-    res.errHandler(400, false, "Missing Inputs");
-  } else if (password1 === password2 &amp;&amp; password1.length >= 6) {
-    // Encrypt password using bcrypt
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) res.errHandler(500, false, "Internal Server Error");
-      bcrypt.hash(password1, salt, async (err, hash) => {
-        if (err) res.errHandler(500, false, "Internal Server Error");
-        await User.findOneAndUpdate(
-          { email },
-          {
-            password: hash,
-          }
-        );
-        return res.redirect("/dashboard");
+describe("GET /", () => {
+  it("it should GET the index page", (done) => {
+    chai
+      .request(server)
+      .get("/")
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
       });
-    });
-  } else {
-    res.errHandler(400, false, "Entered Inputs are Wrong");
-  }
-};
+  });
+});
 </code></pre>
         </article>
     </section>

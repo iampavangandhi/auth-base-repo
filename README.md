@@ -32,6 +32,41 @@ The above mentioned feature list is elaborated here:
       - Required Fields:
         - valid JWT token containing user info
 
+## Config Setup
+
+#### Add following envs into the `config/config.env` file.
+
+```bash
+PORT=xxxx
+DATABASE=xxxx
+DATABASETEST=xxxx
+SECRET=xxxx
+```
+
+## Build Setup
+
+```bash
+# install dependencies
+npm install
+```
+
+```bash
+# run in production
+npm start
+
+# run in development
+npm run dev
+
+# run test cases
+npm run test
+
+# run jsdoc
+npm run doc
+
+# run linter
+npm run linter
+```
+
 ## Folder Structure
 
     .

@@ -17,7 +17,9 @@ const User = require("../models/User");
 exports.signup = (req, res, next) => {
   const { name, email, password } = req.body;
 
-  if (isAlpha(name) && isEmail(email) && password.length >= 6) {
+  if (!name || !email || !password) {
+    res.errHandler(400, false, "Missing Inputs");
+  } else if (isAlpha(name) && isEmail(email) && password.length >= 6) {
     User.findOne({ email }).then((user) => {
       if (user) {
         res.errHandler(403, false, "Email Already Registered");
@@ -38,7 +40,7 @@ exports.signup = (req, res, next) => {
       });
     });
   } else {
-    res.errHandler(400, false, "Required Input fields are wrong");
+    res.errHandler(400, false, "Required Inputs are wrong");
   }
 };
 
@@ -54,7 +56,9 @@ exports.signup = (req, res, next) => {
 exports.signin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (isEmail(email) && password.length >= 6) {
+  if (!email || !password) {
+    res.errHandler(400, false, "Missing Inputs");
+  } else if (isEmail(email) && password.length >= 6) {
     await User.findOne({ email })
       .then((user) => {
         if (!user) {
@@ -98,7 +102,7 @@ exports.signin = async (req, res, next) => {
         if (err) res.errHandler(500, false, "Internal Server Error");
       });
   } else {
-    res.errHandler(400, false, "Required Fields Missing");
+    res.errHandler(400, false, "Required Inputs are wrong");
   }
 };
 

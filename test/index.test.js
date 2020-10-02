@@ -5,10 +5,12 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-/*
- * Test the /GET route
+/**
+ * Test for index route
+ *
+ * @name Test - index test
  */
-describe("/GET index", () => {
+describe("GET /", () => {
   it("it should GET the index page", (done) => {
     chai
       .request(server)

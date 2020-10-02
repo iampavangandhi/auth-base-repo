@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: controllers/reset.js</title>
+    <title>JSDoc: Source: test/reset.test.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: controllers/reset.js</h1>
+    <h1 class="page-title">Source: test/reset.test.js</h1>
 
     
 
@@ -26,62 +26,95 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const bcrypt = require("bcryptjs");
-const path = require("path");
+            <pre class="prettyprint source linenums"><code>let chai = require("chai");
+let chaiHttp = require("chai-http");
+let server = require("../server");
+let should = chai.should();
 
-// Import schema
 const User = require("../models/User");
 
-/**
- * Controller for reset route
- *
- * @module
- * @name Controller -  reset route controller
- * @param {object} req request
- * @param {object} res response
- */
-exports.reset = (req, res) => {
-  const { token } = req.cookies;
+chai.use(chaiHttp);
 
-  res
-    .status(200)
-    .set("token", token)
-    .sendFile(path.join(__dirname, "../public/reset.html"));
+const demoUserData = {
+  name: "newUser",
+  email: "new@new.com",
+  password: "123456",
+};
+
+const demoUserDataReset = {
+  token: "Bearer xyz",
+  email: "new@new.com",
+  password1: "666666",
+  password2: "666666",
 };
 
 /**
- * Controller for resetPass route
+ * Test for reset route
  *
- * @module
- * @name Controller -  resetPassword route controller
- * @param {object} req request
- * @param {object} res response
- * @body {object} req.body token, name, password1, password2
+ * @name Test - reset test
  */
-exports.resetPassword = async (req, res, next) => {
-  const { token, email, password1, password2 } = req.body;
-
-  if (!token || !email || !password1 || !password2) {
-    res.errHandler(400, false, "Missing Inputs");
-  } else if (password1 === password2 &amp;&amp; password1.length >= 6) {
-    // Encrypt password using bcrypt
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) res.errHandler(500, false, "Internal Server Error");
-      bcrypt.hash(password1, salt, async (err, hash) => {
-        if (err) res.errHandler(500, false, "Internal Server Error");
-        await User.findOneAndUpdate(
-          { email },
-          {
-            password: hash,
-          }
-        );
-        return res.redirect("/dashboard");
+describe("GET /reset", () => {
+  it("it should GET the reset page", (done) => {
+    chai
+      .request(server)
+      .get("/reset")
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
       });
+  });
+});
+
+
+/**
+ * Test for reset route
+ *
+ * @name Test - reset test
+ */
+describe("PUT /reset", () => {
+  beforeEach((done) => {
+    chai
+      .request(server)
+      .post("/signup")
+      .send(demoUserData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
+      });
+  });
+
+  afterEach((done) => {
+    // After each test we truncate the database
+    User.deleteMany({}, (err) => {
+      done();
     });
-  } else {
-    res.errHandler(400, false, "Entered Inputs are Wrong");
-  }
-};
+  });
+
+  it("it shouldn't PUT without req.body ( token, email, password1 &amp; password2)", (done) => {
+    chai
+      .request(server)
+      .put("/reset")
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("message");
+        done();
+      });
+  });
+
+  it("it should reset the password and redirect to /dashboard", (done) => {
+    chai
+      .request(server)
+      .put("/reset")
+      .send(demoUserDataReset)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
+      });
+  });
+});
 </code></pre>
         </article>
     </section>

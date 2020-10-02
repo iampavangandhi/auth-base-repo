@@ -31,11 +31,11 @@ exports.reset = (req, res) => {
  * @body {object} req.body token, name, password1, password2
  */
 exports.resetPassword = async (req, res, next) => {
-  const { email, password1, password2 } = req.body;
+  const { token, email, password1, password2 } = req.body;
 
-  const token = req.body.token.split("%20")[1];
-
-  if (password1 === password2 && password1.length >= 6 && token) {
+  if (!token || !email || !password1 || !password2) {
+    res.errHandler(400, false, "Missing Inputs");
+  } else if (password1 === password2 && password1.length >= 6) {
     // Encrypt password using bcrypt
     bcrypt.genSalt(10, (err, salt) => {
       if (err) res.errHandler(500, false, "Internal Server Error");
@@ -51,6 +51,6 @@ exports.resetPassword = async (req, res, next) => {
       });
     });
   } else {
-    res.errHandler(400, false, "Entered Inputs are wrong");
+    res.errHandler(400, false, "Entered Inputs are Wrong");
   }
 };

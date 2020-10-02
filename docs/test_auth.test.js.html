@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: controllers/reset.js</title>
+    <title>JSDoc: Source: test/auth.test.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: controllers/reset.js</h1>
+    <h1 class="page-title">Source: test/auth.test.js</h1>
 
     
 
@@ -26,62 +26,129 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const bcrypt = require("bcryptjs");
-const path = require("path");
+            <pre class="prettyprint source linenums"><code>let chai = require("chai");
+let chaiHttp = require("chai-http");
+let server = require("../server");
+let should = chai.should();
 
-// Import schema
 const User = require("../models/User");
 
-/**
- * Controller for reset route
- *
- * @module
- * @name Controller -  reset route controller
- * @param {object} req request
- * @param {object} res response
- */
-exports.reset = (req, res) => {
-  const { token } = req.cookies;
+chai.use(chaiHttp);
 
-  res
-    .status(200)
-    .set("token", token)
-    .sendFile(path.join(__dirname, "../public/reset.html"));
+const demoUserData = {
+  name: "newUser",
+  email: "new@new.com",
+  password: "123456",
+};
+
+const demoUser = {
+  email: "new@new.com",
+  password: "123456",
 };
 
 /**
- * Controller for resetPass route
+ * Test for signup route
  *
- * @module
- * @name Controller -  resetPassword route controller
- * @param {object} req request
- * @param {object} res response
- * @body {object} req.body token, name, password1, password2
+ * @name Test - signup test
  */
-exports.resetPassword = async (req, res, next) => {
-  const { token, email, password1, password2 } = req.body;
-
-  if (!token || !email || !password1 || !password2) {
-    res.errHandler(400, false, "Missing Inputs");
-  } else if (password1 === password2 &amp;&amp; password1.length >= 6) {
-    // Encrypt password using bcrypt
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) res.errHandler(500, false, "Internal Server Error");
-      bcrypt.hash(password1, salt, async (err, hash) => {
-        if (err) res.errHandler(500, false, "Internal Server Error");
-        await User.findOneAndUpdate(
-          { email },
-          {
-            password: hash,
-          }
-        );
-        return res.redirect("/dashboard");
-      });
+describe("POST /signup", () => {
+  afterEach((done) => {
+    // After each test we truncate the database
+    User.deleteMany({}, (err) => {
+      done();
     });
-  } else {
-    res.errHandler(400, false, "Entered Inputs are Wrong");
-  }
-};
+  });
+
+  it("it shouldn't POST without req.body (name, email &amp; password)", (done) => {
+    chai
+      .request(server)
+      .post("/signup")
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("message");
+        done();
+      });
+  });
+
+  it("it should save the user in the DB", (done) => {
+    chai
+      .request(server)
+      .post("/signup")
+      .send(demoUserData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
+      });
+  });
+});
+
+/**
+ * Test for signin route
+ *
+ * @name Test - signin test
+ */
+describe("POST /signin", () => {
+  beforeEach((done) => {
+    chai
+      .request(server)
+      .post("/signup")
+      .send(demoUserData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
+      });
+  });
+
+  afterEach((done) => {
+    // After each test we truncate the database
+    User.deleteMany({}, (err) => {
+      done();
+    });
+  });
+
+  it("it shouldn't POST without req.body ( email &amp; password)", (done) => {
+    chai
+      .request(server)
+      .post("/signin")
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("message");
+        done();
+      });
+  });
+
+  it("it should login the user and redirect to /dashboard", (done) => {
+    chai
+      .request(server)
+      .post("/signin")
+      .send(demoUser)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
+      });
+  });
+});
+
+/**
+ * Test for signout route
+ *
+ * @name Test - signout test
+ */
+describe("GET /signout", () => {
+  it("it should signout the user and redirect to /", (done) => {
+    chai
+      .request(server)
+      .get("/")
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
+        done();
+      });
+  });
+});
 </code></pre>
         </article>
     </section>

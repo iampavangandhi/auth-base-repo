@@ -18,16 +18,20 @@ const demoUser = {
   password: "123456",
 };
 
-/*
- * Test the GET /dashboard route
+/**
+ * Test for dashboard route
+ *
+ * @name Test - dashboard test
  */
-describe("/GET dashboard", () => {
+describe("GET /dashboard", () => {
   beforeEach((done) => {
     chai
       .request(server)
       .post("/signup")
       .send(demoUserData)
       .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
         done();
       });
   });
@@ -38,6 +42,8 @@ describe("/GET dashboard", () => {
       .post("/signin")
       .send(demoUser)
       .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
         done();
       });
   });
@@ -54,6 +60,8 @@ describe("/GET dashboard", () => {
       .request(server)
       .get("/dashboard")
       .end((err, res) => {
+        res.should.have.status(200);
+        res.should.to.be.html;
         done();
       });
   });
