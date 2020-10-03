@@ -33,30 +33,23 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(methodOverride(methodOverrideFunc));
 
-// DB Connection
 if (process.env.NODE_ENV === "test") {
-  mongoose
-    .connect(process.env.DATABASETEST, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    })
-    .then(() => {
-      console.info("Database Connected Successfully");
-    });
+  databaseUri = process.env.DATABASETEST;
 } else {
-  mongoose
-    .connect(process.env.DATABASE, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    })
-    .then(() => {
-      console.info("Database Connected Successfully");
-    });
+  databaseUri = process.env.DATABASE;
 }
+
+// DB Connection
+mongoose
+  .connect(databaseUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.info("Database Connected Successfully");
+  });
 
 // error handler middleware
 app.use((req, res, next) => {

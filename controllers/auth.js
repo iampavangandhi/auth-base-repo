@@ -20,25 +20,31 @@ exports.signup = (req, res, next) => {
   if (!name || !email || !password) {
     res.errHandler(400, false, "Missing Inputs");
   } else if (isAlpha(name) && isEmail(email) && password.length >= 6) {
-    User.findOne({ email }).then((user) => {
-      if (user) {
-        res.errHandler(403, false, "Email Already Registered");
-      }
-      const newUser = new User(req.body);
-      // Encrypt password using bcrypt
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err) res.errHandler(500, false, "Internal Server Error");
-        bcrypt.hash(password, salt, (err, hash) => {
-          if (err) res.errHandler(500, false, "Internal Server Error");
-          newUser.password = hash;
-          newUser.save().catch((err) => {
+    User.findOne({ email })
+      .then((user) => {
+        if (user) {
+          res.errHandler(403, false, "Email Already Registered");
+        } else {
+          const newUser = new User(req.body);
+          // Encrypt password using bcrypt
+          bcrypt.genSalt(10, (err, salt) => {
             if (err) res.errHandler(500, false, "Internal Server Error");
+            bcrypt.hash(password, salt, (err, hash) => {
+              if (err) res.errHandler(500, false, "Internal Server Error");
+              newUser.password = hash;
+              newUser.save();
+
+              res.clearCookie("token");
+              res.redirect("/");
+            });
           });
-          res.clearCookie("token");
-          res.redirect("/");
-        });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          res.errHandler(500, false, "Internal Server Error");
+        }
       });
-    });
   } else {
     res.errHandler(400, false, "Required Inputs are wrong");
   }
@@ -61,9 +67,6 @@ exports.signin = async (req, res, next) => {
   } else if (isEmail(email) && password.length >= 6) {
     await User.findOne({ email })
       .then((user) => {
-        if (!user) {
-          res.errHandler(403, false, "User Not Found");
-        }
         res.clearCookie("token");
 
         // Compare passwords using bcrypt
@@ -99,7 +102,7 @@ exports.signin = async (req, res, next) => {
           });
       })
       .catch((err) => {
-        if (err) res.errHandler(500, false, "Internal Server Error");
+        if (err) res.errHandler(403, false, "User Not Found");
       });
   } else {
     res.errHandler(400, false, "Required Inputs are wrong");

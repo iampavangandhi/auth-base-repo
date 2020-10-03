@@ -13,7 +13,16 @@ const demoUserData = {
   password: "123456",
 };
 
+const demoUserWrongDataReset = {
+  _method: "put",
+  token: "Bearer xyz",
+  email: "new@new.com",
+  password1: "666660",
+  password2: "666666",
+};
+
 const demoUserDataReset = {
+  _method: "put",
   token: "Bearer xyz",
   email: "new@new.com",
   password1: "666666",
@@ -37,7 +46,6 @@ describe("GET /reset", () => {
       });
   });
 });
-
 
 /**
  * Test for reset route
@@ -75,10 +83,22 @@ describe("PUT /reset", () => {
       });
   });
 
+  it("it shouldn't PUT if required fields are wrong", (done) => {
+    chai
+      .request(server)
+      .post("/reset")
+      .send(demoUserWrongDataReset)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("message");
+        done();
+      });
+  });
+
   it("it should reset the password and redirect to /dashboard", (done) => {
     chai
       .request(server)
-      .put("/reset")
+      .post("/reset")
       .send(demoUserDataReset)
       .end((err, res) => {
         res.should.have.status(200);
