@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
+let databaseUri = process.env.DATABASE;
 
 const app = express();
 
@@ -33,10 +34,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(methodOverride(methodOverrideFunc));
 
+// Switching to TEST DB
 if (process.env.NODE_ENV === "test") {
   databaseUri = process.env.DATABASETEST;
-} else {
-  databaseUri = process.env.DATABASE;
 }
 
 // DB Connection
