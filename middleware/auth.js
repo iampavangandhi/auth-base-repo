@@ -9,11 +9,11 @@ const jwt = require("jsonwebtoken");
  * @param {Function} next - next function
  */
 exports.checkAuth = async (req, res, next) => {
-  const { token } = req.cookies || req.header;
-
   if (process.env.NODE_ENV === "test") {
     next();
   } else if (token) {
+    const { token } = req.cookies || req.header;
+
     const extractedToken = token.split(" ")[1];
     await jwt.verify(extractedToken, process.env.SECRET, (err, decoded) => {
       if (err) {
