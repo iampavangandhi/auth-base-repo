@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>auth-base-repo</h1>
+<p>This repo contains a basic implementation of the following tasks:</p>
+<ol>
+<li>User registeration / sign up</li>
+<li>User login</li>
+<li>Forgot / Reset Password</li>
+<li>Signout</li>
+<li>A simple JWT auth based API route ( /dashboard )</li>
+</ol>
+<h2>Features</h2>
+<p>The above mentioned feature list is elaborated here:</p>
+<ul>
+<li>User registeration / sign up
+<ul>
+<li>Required Fields:
+<ul>
+<li>full name</li>
+<li>email id</li>
+<li>password</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>User login
+<ul>
+<li>Required Fields:
+<ul>
+<li>email id</li>
+<li>password</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Forgot Password
+<ul>
+<li>Required Fields:
+<ul>
+<li>email id</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Reset Password
+<ul>
+<li>Required Fields:
+<ul>
+<li>reset token ( prefilled )</li>
+<li>email ( prefilled )</li>
+<li>new password</li>
+<li>confirm password</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Dashboard
+<ul>
+<li>Required Fields:
+<ul>
+<li>valid JWT token containing user info</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Config Setup</h2>
+<h4>Add following envs into the <code>config/config.env</code> file.</h4>
+<pre class="prettyprint source lang-bash"><code>PORT=xxxx
+DATABASE=xxxx
+DATABASETEST=xxxx
+SECRET=xxxx
+</code></pre>
+<h2>Build Setup</h2>
+<pre class="prettyprint source lang-bash"><code># install dependencies
+npm install
+</code></pre>
+<pre class="prettyprint source lang-bash"><code># run in production
+npm start
+
+# run in development
+npm run dev
+
+# run test cases
+npm test
+
+# run jsdoc
+npm run doc
+
+# run linter
+npm run linter
+</code></pre>
+<h2>Folder Structure</h2>
+<pre><code>.
+├── 📁 config               # Config files
+├── 📁 controllers          # Route controllers
+├── 📁 docs                 # JSdoc output
+├── 📁 middleware           # Express middlewares
+├── 📁 models               # Mongoose models
+├── 📁 public               # Public folder
+├── 📁 routes               # Express routes
+└── 📁 test                 # Test files
+</code></pre>
+<h2>Postman Collection</h2>
+<p>Published link: <a href="https://documenter.getpostman.com/view/8562745/TVRecpfs">here</a></p>
+<h2>Future tasks</h2>
+<ol>
+<li>Sign up via Google</li>
+<li>Sign up via Facebook</li>
+</ol></article>
+    </section>
+
+
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>server.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>server.js is the root file for this app</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/iampavangandhi/auth-base-repo/tree/auth-setup">https://github.com/iampavangandhi/auth-base-repo/tree/auth-setup</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Controller%2520-%2520%2520reset%2520route%2520controller.html">Controller -  reset route controller</a></li><li><a href="module-Controller%2520-%2520%2520resetPassword%2520route%2520controller.html">Controller -  resetPassword route controller</a></li><li><a href="module-Controller%2520-%2520%2520signin%2520route%2520controller.html">Controller -  signin route controller</a></li><li><a href="module-Controller%2520-%2520dashboard%2520route%2520controller.html">Controller - dashboard route controller</a></li><li><a href="module-Controller%2520-%2520index%2520route%2520controller.html">Controller - index route controller</a></li><li><a href="module-Controller%2520-%2520signout%2520route%2520controller.html">Controller - signout route controller</a></li><li><a href="module-Controller%2520-%2520signup%2520route%2520controller.html">Controller - signup route controller</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Middleware-checkAuthmiddleware">Middleware - checkAuth middleware</a></li><li><a href="global.html#Model-userschema">Model - user schema</a></li><li><a href="global.html">Route - dashboard route</a></li><li><a href="global.html">Route - index route</a></li><li><a href="global.html">Route - reset route</a></li><li><a href="global.html">Route - resetPassword route</a></li><li><a href="global.html">Route - signin route</a></li><li><a href="global.html">Route - signout route</a></li><li><a href="global.html">Route - signup route</a></li><li><a href="global.html#Test-dashboardtest">Test - dashboard test</a></li><li><a href="global.html#Test-indextest">Test - index test</a></li><li><a href="global.html#Test-resettest">Test - reset test</a></li><li><a href="global.html#Test-signintest">Test - signin test</a></li><li><a href="global.html#Test-signouttest">Test - signout test</a></li><li><a href="global.html#Test-signuptest">Test - signup test</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Oct 03 2020 11:50:08 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

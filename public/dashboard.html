@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth-base-repo</title>
+    <style>
+      html {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the dashboard</h1>
+    <form method="GET" action="/signout" onsubmit="clearEmail()">
+      <input type="submit" value="Signout" />
+    </form>
+    <a href="/reset"><h4>Reset Password</h4></a>
+    <script>
+      function clearEmail() {
+        localStorage.removeItem("email");
+      }
+    </script>
+  </body>
+</html>

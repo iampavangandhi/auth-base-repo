@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JWT Auth Repo</title>
+    <style>
+      html {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+      .form {
+        width: 300px;
+        padding: 25px;
+        background-color: #eee;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .form > form {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .form > form > input,
+      button {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JWT Auth Repo</h1>
+    <div id="login-form" class="form">
+      <h2>Login Form</h2>
+      <form method="POST" action="/signin" onsubmit="storeEmail()">
+        <input
+          required
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Email"
+        />
+        <input
+          required
+          minlength="6"
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+        <button>Submit</button>
+      </form>
+      <a href="#" onclick="signupFunc()"><h4>SignUp</h4></a>
+    </div>
+
+    <div id="signup-form" class="form" style="display: none">
+      <h2>SignUp Form</h2>
+      <form method="POST" action="/signup" onsubmit="storeEmail()">
+        <input required type="text" name="name" placeholder="Name" />
+        <input required type="email" name="email" placeholder="Email" />
+        <input
+          required
+          minlength="6"
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+        <button>Submit</button>
+      </form>
+      <a href="#" onclick="loginFunc()"><h4>Go to Login</h4></a>
+    </div>
+
+    <script>
+      var loginForm = document.getElementById("login-form");
+      var signupForm = document.getElementById("signup-form");
+
+      function loginFunc() {
+        loginForm.style.display = "flex";
+        signupForm.style.display = "none";
+      }
+
+      function signupFunc() {
+        loginForm.style.display = "none";
+        signupForm.style.display = "flex";
+      }
+
+      function storeEmail() {
+        var email = document.getElementById("email").value;
+        localStorage.setItem("email", email);
+      }
+    </script>
+  </body>
+</html>
